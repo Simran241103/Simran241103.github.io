@@ -1,3 +1,10 @@
+<!--
+	Name: Simran
+	File: letter-text.txt
+	Date: 20 September 2023
+	this is the raw file provided by the professor
+	-->
+
 Dr. Eleanor Gaye
 Awesome Science faculty
 University of Awesome

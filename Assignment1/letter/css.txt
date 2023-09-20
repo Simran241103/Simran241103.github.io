@@ -1,3 +1,10 @@
+<!--
+	Name: Simran
+	File: css.txt
+	Date: 20 September 2023
+	this is the raw file provided by the professor
+	-->
+
 body {
   max-width: 800px;
   margin: 0 auto;
