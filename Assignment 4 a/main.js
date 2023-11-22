@@ -1,15 +1,11 @@
-// COMPLETE VARIABLE AND FUNCTION DEFINITIONS
-
 const customName = document.getElementById('customname');
-const randomize = document.getElementById('randomizeBtn');
-const storyOutput = document.getElementById('storyOutput');
+const randomize = document.querySelector('.randomize'); // Update to select the button by class
+const storyOutput = document.querySelector('.story'); // Update to select the output paragraph by class
 
 function randomValueFromArray(array) {
   const random = Math.floor(Math.random() * array.length);
   return array[random];
 }
-
-// RAW TEXT STRINGS
 
 const storyText =
   "It was 94 fahrenheit outside, so :insertx: went for a walk. When they got to :inserty:, they stared in horror for a few moments, then :insertz:. Bob saw the whole thing, but was not surprised — :insertx: weighs 300 pounds, and it was a hot day.";
@@ -22,8 +18,6 @@ const insertZ = [
   "turned into a slug and crawled away"
 ];
 
-// EVENT LISTENER AND PARTIAL FUNCTION DEFINITION
-
 randomize.addEventListener('click', result);
 
 function result() {
@@ -35,10 +29,10 @@ function result() {
       .replaceAll(":insertz:", randomValueFromArray(insertZ));
 
     if (document.getElementById("uk").checked) {
-      const weight = Math.round(300);
-      const temperature = Math.round(94);
-      const weightInStones = Math.round(weight / 14);
-      const temperatureInCelsius = Math.round((temperature - 32) * 5 / 9);
+      const weightInPounds = 300;
+      const temperatureInFahrenheit = 94;
+      const weightInStones = Math.round(weightInPounds / 14);
+      const temperatureInCelsius = Math.round((temperatureInFahrenheit - 32) * 5 / 9);
       storyOutput.textContent = newStory
         .replaceAll("Bob", name)
         .replaceAll("300 pounds", `${weightInStones} stones`)
