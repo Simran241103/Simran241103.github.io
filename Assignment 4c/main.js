@@ -1,21 +1,18 @@
-// Constants
+
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 const width = (canvas.width = window.innerWidth);
 const height = (canvas.height = window.innerHeight);
 
-// Function to generate random number
 function random(min, max) {
   const num = Math.floor(Math.random() * (max - min + 1)) + min;
   return num;
 }
 
-// Function to generate random color
 function randomRGB() {
   return `rgb(${random(0, 255)},${random(0, 255)},${random(0, 255)})`;
 }
 
-// Ball class
 class Ball {
   constructor(x, y, velX, velY, color, size) {
     this.x = x;
@@ -26,7 +23,6 @@ class Ball {
     this.size = size;
   }
 
-  // Draw the ball
   draw() {
     ctx.beginPath();
     ctx.fillStyle = this.color;
@@ -34,7 +30,6 @@ class Ball {
     ctx.fill();
   }
 
-  // Update the ball's position
   update() {
     if (this.x + this.size >= width || this.x - this.size <= 0) {
       this.velX = -this.velX;
@@ -47,52 +42,45 @@ class Ball {
     this.x += this.velX;
     this.y += this.velY;
   }
-}
 
-// Collision detection function
-function collisionDetect(ball) {
-  for (let i = 0; i < balls.length; i++) {
-    if (!(ball === balls[i])) {
-      const dx = ball.x - balls[i].x;
-      const dy = ball.y - balls[i].y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
+  static collisionDetect(ball, otherBall) {
+    const dx = ball.x - otherBall.x;
+    const dy = ball.y - otherBall.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
 
-      if (distance < ball.size + balls[i].size) {
-        balls[i].color = ball.color = randomRGB();
-      }
-    }
+    return distance < ball.size + otherBall.size;
   }
 }
 
-// Loop through the balls
 function loop() {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
   ctx.fillRect(0, 0, width, height);
 
   for (let i = 0; i < balls.length; i++) {
-    balls[i].draw();
-    balls[i].update();
-    collisionDetect(balls[i]);
+    const ball = balls[i];
+    ball.draw();
+    ball.update();
+
+    for (let j = 0; j < balls.length; j++) {
+      if (i !== j && Ball.collisionDetect(ball, balls[j])) {
+        balls[i].color = balls[j].color = randomRGB();
+      }
+    }
   }
 
   requestAnimationFrame(loop);
 }
 
-// Create 25 random balls
-const balls = [];
-for (let i = 0; i < 25; i++) {
+const balls = Array.from({ length: 25 }, () => {
   const size = random(10, 20);
-  const ball = new Ball(
-    random(0 + size, width - size),
-    random(0 + size, height - size),
+  return new Ball(
+    random(size, width - size),
+    random(size, height - size),
     random(-7, 7),
     random(-7, 7),
     randomRGB(),
     size
   );
+});
 
-  balls.push(ball);
-}
-
-// Start the animation loop
 loop();
